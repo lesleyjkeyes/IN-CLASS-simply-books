@@ -1,34 +1,43 @@
+/* eslint-disable camelcase */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { deleteAuthorBooks } from '../api/mergedData';
+import { getAuthorBooks } from '../api/authorData';
 
-function AuthorCard({
-  email,
-  firstName,
-  lastName,
-  image,
-}) {
+function AuthorCard({ authorObj, onUpdate }) {
+  const deleteThisAuthor = () => {
+    if (window.confirm(`Delete ${authorObj.first_name}?`)) {
+      getAuthorBooks(authorObj.firebaseKey).then(() => {
+        deleteAuthorBooks(authorObj.firebaseKey).then(() => onUpdate());
+      });
+    }
+  };
   return (
-    <div>
-      <img src={image} alt={firstName} />
-      <h1>{[firstName, lastName]}</h1>
-      <h2>{email}</h2>
-    </div>
+    <Card style={{ width: '18rem', margin: '10px' }}>
+      <Card.Body>
+        <div>
+          <h1>{[authorObj.first_name, ' ', authorObj.last_name]}</h1>
+          <h2>{authorObj.email}</h2>
+        </div>
+        <Button variant="danger" onClick={deleteThisAuthor} className="m-2">
+          DELETE
+        </Button>
+      </Card.Body>
+    </Card>
   );
 }
 
 AuthorCard.propTypes = {
-  email: PropTypes.string,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  image: PropTypes.string,
-};
-
-AuthorCard.defaultProps = {
-  email: 'Please Edit Email',
-  firstName: 'Please Edit Name',
-  lastName: 'Please Edit Name',
-  image: 'Please Add Image',
+  authorObj: PropTypes.shape({
+    email: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default AuthorCard;
