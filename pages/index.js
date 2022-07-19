@@ -19,6 +19,7 @@ function Home() {
   };
 
   // TODO: make the call to the API to get all the books on component render
+  // useEffect accepts two paraments - anonymous function and dependency array. Leaving out the dependency array will lead to an infinite loop. You can have as many dependencies as you want
   useEffect(() => {
     getAllTheBooks();
   }, []);
