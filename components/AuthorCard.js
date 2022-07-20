@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Link from 'next/link';
 import { deleteAuthorBooks } from '../api/mergedData';
 import { getAuthorBooks } from '../api/authorData';
 
@@ -22,6 +23,12 @@ function AuthorCard({ authorObj, onUpdate }) {
           <h1>{[authorObj.first_name, ' ', authorObj.last_name]}</h1>
           <h2>{authorObj.email}</h2>
         </div>
+        <Link href={`/author/${authorObj.firebaseKey}`} passHref>
+          <Button variant="primary" className="m-2">VIEW</Button>
+        </Link>
+        <Link href={`/author/edit/${authorObj.firebaseKey}`} passHref>
+          <Button variant="info">EDIT</Button>
+        </Link>
         <Button variant="danger" onClick={deleteThisAuthor} className="m-2">
           DELETE
         </Button>
