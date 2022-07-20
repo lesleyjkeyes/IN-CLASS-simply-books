@@ -8,6 +8,7 @@ import { useAuth } from '../../utils/context/authContext';
 import { getAuthors } from '../../api/authorData';
 import { createBook, updateBook } from '../../api/bookData';
 
+// used for default values in form. can be named anything
 const initialState = {
   description: '',
   image: '',
@@ -17,7 +18,7 @@ const initialState = {
 };
 
 function BookForm({ obj }) {
-  const [formInput, setFormInput] = useState(initialState);
+  const [formInput, setFormInput] = useState(initialState); // we could technically add the whole object in here, but we created a variable because we will need to use it again
   const [authors, setAuthors] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
@@ -28,6 +29,7 @@ function BookForm({ obj }) {
     if (obj.firebaseKey) setFormInput(obj);
   }, [obj, user]);
 
+  // handleChange can be copied and pasted
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
@@ -50,6 +52,7 @@ function BookForm({ obj }) {
   };
 
   return (
+    // name(set this to the name of the object), value and onChange. type will also be required. placeholder and required are optional
     <Form onSubmit={handleSubmit}>
       <h2 className="text-white mt-5">{obj.firebaseKey ? 'Update' : 'Create'} Book</h2>
       <FloatingLabel controlId="floatingInput1" label="Book Title" className="mb-3">
